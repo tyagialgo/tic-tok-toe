@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS // Online Arena</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="./assests/css/style.css">
+    <link rel="stylesheet" href="./assests/css/loading-spiner.css">
+    <link rel="stylesheet" href="./assests/css/game.css">
+</head>
+<body aria-busy="true">
+    <div class="loading-overlay"><div class="loader-mark" aria-hidden="true"><span></span><span></span><span></span></div><div><p class="loader-name">NEXUS</p><h3>Connecting network<span class="loading-dots">...</span></h3></div></div>
+    <section class="full-result-screen" id="full-result-screen" aria-live="assertive" aria-hidden="true">
+        <div class="result-scanline"></div>
+        <span class="full-result-kicker">NEXUS / ONLINE MATCH REPORT</span>
+        <div class="full-result-mark">*</div>
+        <h2 id="full-result-title">YOU WIN</h2>
+        <p id="full-result-detail">New round loading...</p>
+        <div class="next-round-line"><span></span> NEW GAME INITIALIZING <span></span></div>
+    </section>
+    <section class="name-gate" id="name-gate" aria-modal="true" role="dialog">
+        <span class="full-result-kicker">NEXUS / PLAYER ID</span>
+        <h2>Who is playing?</h2>
+        <p>Enter your name before joining or hosting.</p>
+        <input id="start-name" maxlength="16" placeholder="Your name" autocomplete="name">
+        <button id="start-match" type="button">Enter online arena <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+    </section>
+    <main class="game-box online-mode">
+        <header class="game-header"><div><p class="eyebrow">Friend versus friend</p><h1>NEXUS <span>//</span> ONLINE</h1></div><div class="round-mark" id="round-number" aria-label="Round one">01</div></header>
+        <div class="game-status"><span class="status-dot" aria-hidden="true"></span><div class="message"><p id="online-status">Create a room or join a friend</p></div><span class="status-label">Peer link</span><span class="turn-timer" id="turn-timer" aria-label="Turn time remaining">30</span></div>
+        <section class="online-connect" aria-label="Online connection controls">
+            <label>Your name<input id="online-name" maxlength="16" value="Player"></label>
+            <button id="host-room" class="online-action" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Host room</button>
+            <div class="room-join"><input id="room-code" maxlength="64" placeholder="Room code" aria-label="Room code"><button id="join-room" class="online-action" type="button"><i class="fa-solid fa-link" aria-hidden="true"></i> Join</button></div>
+        </section>
+        <div class="online-scorebar"><span>Round <strong id="round-label">01</strong></span><span><b id="online-score-x">0</b> X <i>:</i> <b id="online-score-o">0</b> O <i>:</i> <b id="online-score-draw">0</b> draws</span><label class="online-theme">Theme<select id="theme"><option value="nexus">Nexus</option><option value="ember">Ember</option><option value="ice">Ice</option></select></label><button id="sound-toggle" class="online-sound" type="button" aria-pressed="false"><i class="fa-solid fa-volume-xmark" aria-hidden="true"></i> Sound off</button></div>
+        <div class="room-display" id="room-display" hidden><span>Copy this room code</span><strong id="room-id">----</strong><button id="copy-room" type="button" title="Copy room code"><i class="fa-regular fa-copy" aria-hidden="true"></i> Copy code</button></div>
+        <section class="board-shell" aria-label="Online tic tac toe board">
+            <div class="tictactoe">
+                <button class="cell" aria-label="Top left"></button><button class="cell" aria-label="Top center"></button><button class="cell" aria-label="Top right"></button>
+                <button class="cell" aria-label="Middle left"></button><button class="cell" aria-label="Center"></button><button class="cell" aria-label="Middle right"></button>
+                <button class="cell" aria-label="Bottom left"></button><button class="cell" aria-label="Bottom center"></button><button class="cell" aria-label="Bottom right"></button>
+            </div>
+        </section>
+        <footer class="game-footer"><p><span class="key-symbol">X</span> host <span class="footer-divider">/</span> <span class="key-symbol key-o">O</span> guest</p><button id="reset" type="button"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i> New game</button></footer>
+        <section class="history-panel"><span class="tool-label">Copy the room code and send it to your friend</span><a class="back-link" href="index.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Dashboard</a></section>
+    </main>
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+    <script src="./assests/js/online-game.js"></script>
+    <script>window.addEventListener('load', () => { window.setTimeout(() => { document.body.classList.add('loaded'); document.body.setAttribute('aria-busy', 'false'); }, 650); }); new OnlineGame();</script>
+</html>

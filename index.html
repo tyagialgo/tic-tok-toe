@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS // Game Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="./assests/css/style.css">
+    <link rel="stylesheet" href="./assests/css/loading-spiner.css">
+    <link rel="stylesheet" href="./assests/css/confetti.css">
+</head>
+<body>
+    <div class="loading-overlay" aria-label="Loading NEXUS dashboard">
+        <div class="loading-spinner"></div>
+        <h3>Booting NEXUS<span>...</span></h3>
+    </div>
+    
+    <div id="confetti-container"></div>
+    
+    <main class="dashboard-shell">
+        <aside class="dashboard-rail">
+            <div class="brand-lockup"><span class="brand-symbol">N</span><span>NEXUS</span></div>
+            <div class="rail-line"></div>
+            <p class="rail-label">Game<br>console<br><span>v.01</span></p>
+            <div class="rail-index">01<br><span>/</span><br>03</div>
+        </aside>
+
+        <section class="dashboard-content">
+            <header class="dashboard-header">
+                <div>
+                    <p class="section-kicker"><span class="live-dot"></span> System online / local play</p>
+                    <h1 class="welcome-title">Choose your <em>arena.</em></h1>
+                </div>
+                <button id="mute" type="button" aria-label="Turn sound on" title="Toggle sound">
+                    <i class="fa fa-volume-mute" aria-hidden="true"></i>
+                </button>
+            </header>
+
+            <div class="dashboard-intro">
+                <p>Every move changes the grid. Pick a mode and make the first mark.</p>
+                <span class="intro-code">NXS / PLAY / 001</span>
+            </div>
+
+            <section class="mode-section" aria-labelledby="mode-heading">
+                <div class="section-heading"><p class="section-kicker">Select protocol</p><h2 id="mode-heading">Start a new match</h2></div>
+                <div class="mode-grid">
+                    <a class="mode-card mode-human" href="twoPlayer.html">
+                        <div class="mode-card-top"><span class="mode-number">01</span><i class="fa-solid fa-users" aria-hidden="true"></i></div>
+                        <div><h3>Two player</h3><p>Pass the board. Read the room. Own the line.</p></div>
+                        <div class="mode-card-footer"><span>Local versus</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></div>
+                    </a>
+                    <a class="mode-card mode-ai" href="AIPlayer.html">
+                        <div class="mode-card-top"><span class="mode-number">02</span><i class="fa-solid fa-microchip" aria-hidden="true"></i></div>
+                        <div><h3>AI arena</h3><p>Challenge the NEXUS core. No easy openings.</p></div>
+                        <div class="mode-card-footer"><span>Human versus AI</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></div>
+                    </a>
+                    <a class="mode-card mode-online" href="OnlinePlayer.html">
+                        <div class="mode-card-top"><span class="mode-number">03</span><i class="fa-solid fa-globe" aria-hidden="true"></i></div>
+                        <div><h3>Online arena</h3><p>Invite a friend with a room code and play live.</p></div>
+                        <div class="mode-card-footer"><span>Friend versus friend</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></div>
+                    </a>
+                </div>
+            </section>
+
+            <section class="dashboard-footer" aria-label="Game information">
+                <div class="data-block"><span class="data-label">Board</span><strong>03 × 03</strong></div>
+                <div class="data-block"><span class="data-label">Players</span><strong>X / O</strong></div>
+                <div class="data-block"><span class="data-label">Status</span><strong class="status-ready">Ready to play</strong></div>
+                <p class="footer-note">A tiny board.<br>A serious decision.</p>
+            </section>
+        </section>
+    </main>
+
+    <script src="./assests/js/confetti.js"></script>
+    <script src="./assests/js/script.js" defer></script>
+</body>
+</html>

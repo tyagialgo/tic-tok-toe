@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>NEXUS // AI Arena</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="stylesheet" href="./assests/css/style.css">
+	<link rel="stylesheet" href="./assests/css/loading-spiner.css">
+	<link rel="stylesheet" href="./assests/css/confetti.css">
+	<link rel="stylesheet" href="./assests/css/game.css">
+</head>
+<body aria-busy="true">
+	<div class="loading-overlay">
+		<div class="loader-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+		<div><p class="loader-name">NEXUS</p><h3>Connecting to AI<span class="loading-dots">...</span></h3></div>
+	</div>
+	<div id="confetti-container"></div>
+	<section class="full-result-screen" id="full-result-screen" aria-live="assertive" aria-hidden="true">
+		<div class="result-scanline"></div>
+		<span class="full-result-kicker">NEXUS / AI MATCH REPORT</span>
+		<div class="full-result-mark">*</div>
+		<h2 id="full-result-title">YOU WIN</h2>
+		<p id="full-result-detail">Nexus core defeated</p>
+		<div class="next-round-line"><span></span> NEXT ROUND INITIALIZING <span></span></div>
+	</section>
+	<section class="name-gate" id="name-gate" aria-modal="true" role="dialog">
+		<span class="full-result-kicker">NEXUS / PLAYER ID</span>
+		<h2>Who is playing?</h2>
+		<p>Enter your name before the match begins.</p>
+		<input id="start-name" maxlength="16" placeholder="Your name" autocomplete="name">
+		<button id="start-match" type="button">Enter arena <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+	</section>
+
+	<main class="game-box ai-mode">
+		<header class="game-header">
+			<div><p class="eyebrow">Human vs computer</p><h1>NEXUS <span>//</span> AI ARENA</h1></div>
+			<div class="round-mark" aria-label="Artificial intelligence mode">AI</div>
+		</header>
+		<div class="game-status">
+			<span class="status-dot" aria-hidden="true"></span>
+			<div class="message"><p>Player X's turn</p></div>
+			<span class="status-label">AI online</span>
+			<span class="turn-timer" id="turn-timer" aria-label="Turn time remaining">30</span>
+		</div>
+		<section class="result-overlay" id="result-overlay" aria-live="assertive" aria-hidden="true">
+			<span class="result-kicker">Round complete</span>
+			<h2 id="result-title">YOU WIN</h2>
+			<p id="result-detail">New round loading...</p>
+		</section>
+		<section class="match-tools" aria-label="Match controls">
+			<div class="score-card"><span class="tool-label">Scoreboard</span><div class="score-row"><strong id="score-x">0</strong><span>:</span><strong id="score-o">0</strong></div><small><span id="score-name-x">You</span> / <span id="score-name-o">Nexus AI</span></small></div>
+			<div class="settings-grid">
+				<label>Your name<input id="player-x" type="text" maxlength="16" value="You"></label>
+				<label>AI name<input id="player-o" type="text" maxlength="16" value="Nexus AI"></label>
+				<label>Difficulty<select id="difficulty"><option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Impossible</option></select></label>
+				<label>Theme<select id="theme"><option value="nexus">Nexus</option><option value="ember">Ember</option><option value="ice">Ice</option></select></label>
+				<button id="sound-toggle" class="tool-button" type="button" aria-pressed="false"><i class="fa-solid fa-volume-xmark" aria-hidden="true"></i> Sound off</button>
+			</div>
+		</section>
+		<section class="board-shell" aria-label="Tic tac toe board">
+			<div class="board-corner board-corner-top" aria-hidden="true"></div>
+			<div class="tictactoe">
+				<button class="cell" aria-label="Top left"></button><button class="cell" aria-label="Top center"></button><button class="cell" aria-label="Top right"></button>
+				<button class="cell" aria-label="Middle left"></button><button class="cell" aria-label="Center"></button><button class="cell" aria-label="Middle right"></button>
+				<button class="cell" aria-label="Bottom left"></button><button class="cell" aria-label="Bottom center"></button><button class="cell" aria-label="Bottom right"></button>
+			</div>
+			<div class="board-corner board-corner-bottom" aria-hidden="true"></div>
+		</section>
+		<footer class="game-footer">
+			<p><span class="key-symbol">X</span> you <span class="footer-divider">/</span> <span class="key-symbol key-o">O</span> nexus AI</p>
+			<button id="reset" type="button"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Reset board</button>
+		</footer>
+		<section class="history-panel"><div><p class="tool-label">Round history</p><ul id="history"><li>No rounds played yet</li></ul></div><a class="back-link" href="index.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Dashboard</a></section>
+	</main>
+
+	<script src="./assests/js/confetti.js"></script>
+	<script src="./assests/js/ai-game.js"></script>
+	<script>
+		window.addEventListener('load', function () {
+			window.setTimeout(function () {
+				document.body.classList.add('loaded');
+				document.body.setAttribute('aria-busy', 'false');
+			}, 650);
+		});
+		new AIPlayer();
+	</script>
+</html>

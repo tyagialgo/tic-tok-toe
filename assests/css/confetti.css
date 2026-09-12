@@ -1,0 +1,17 @@
+.confetti{
+    top: 0;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    animation: confettiAnimation 3s linear infinite;
+}
+
+@keyframes confettiAnimation {
+    0% {
+        transform: translateY(-5vh) rotate(0deg) rotateY(0deg);
+    }
+
+    100% {
+        transform: translateY(100vh) rotate(360deg) rotateY(720deg);
+    }
+}
