@@ -86,14 +86,14 @@ class OnlineGame {
 
     async copyInvite() {
         const room = this.roomId.textContent;
-        const invite = room;
+        const invite = `${window.location.origin}${window.location.pathname}?room=${encodeURIComponent(room)}`;
         try {
             await navigator.clipboard.writeText(invite);
-            this.setStatus('Room code copied. Send it to your friend.');
+            this.setStatus('Invite link copied. Send it to your friend anywhere.');
             document.getElementById('copy-room').innerHTML = '<i class="fa-solid fa-check" aria-hidden="true"></i> Copied';
             window.setTimeout(() => { document.getElementById('copy-room').innerHTML = '<i class="fa-regular fa-copy" aria-hidden="true"></i> Copy code'; }, 1800);
         } catch (error) {
-            this.setStatus(`Send this room code: ${room}`);
+            this.setStatus(`Send this invite link: ${invite}`);
         }
     }
 

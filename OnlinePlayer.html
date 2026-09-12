@@ -35,7 +35,7 @@
             <div class="room-join"><input id="room-code" maxlength="64" placeholder="Room code" aria-label="Room code"><button id="join-room" class="online-action" type="button"><i class="fa-solid fa-link" aria-hidden="true"></i> Join</button></div>
         </section>
         <div class="online-scorebar"><span>Round <strong id="round-label">01</strong></span><span><b id="online-score-x">0</b> X <i>:</i> <b id="online-score-o">0</b> O <i>:</i> <b id="online-score-draw">0</b> draws</span><label class="online-theme">Theme<select id="theme"><option value="nexus">Nexus</option><option value="ember">Ember</option><option value="ice">Ice</option></select></label><button id="sound-toggle" class="online-sound" type="button" aria-pressed="false"><i class="fa-solid fa-volume-xmark" aria-hidden="true"></i> Sound off</button></div>
-        <div class="room-display" id="room-display" hidden><span>Copy this room code</span><strong id="room-id">----</strong><button id="copy-room" type="button" title="Copy room code"><i class="fa-regular fa-copy" aria-hidden="true"></i> Copy code</button></div>
+        <div class="room-display" id="room-display" hidden><span>Share this invite link</span><strong id="room-id">----</strong><button id="copy-room" type="button" title="Copy invite link"><i class="fa-regular fa-copy" aria-hidden="true"></i> Copy link</button></div>
         <section class="board-shell" aria-label="Online tic tac toe board">
             <div class="tictactoe">
                 <button class="cell" aria-label="Top left"></button><button class="cell" aria-label="Top center"></button><button class="cell" aria-label="Top right"></button>
@@ -44,7 +44,7 @@
             </div>
         </section>
         <footer class="game-footer"><p><span class="key-symbol">X</span> host <span class="footer-divider">/</span> <span class="key-symbol key-o">O</span> guest</p><button id="reset" type="button"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i> New game</button></footer>
-        <section class="history-panel"><span class="tool-label">Copy the room code and send it to your friend</span><a class="back-link" href="index.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Dashboard</a></section>
+        <section class="history-panel"><span class="tool-label">Send the invite link to a friend on any network</span><a class="back-link" href="index.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Dashboard</a></section>
     </main>
     <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
     <script src="./assests/js/online-game.js"></script>
