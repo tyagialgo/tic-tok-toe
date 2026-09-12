@@ -15,6 +15,8 @@ class OnlineGame {
         this.connection = null;
         this.peer = null;
         this.round = 1;
+        this.starter = 'x';
+        this.nextStarter = 'x';
         this.scores = { x: 0, o: 0, draw: 0 };
         this.soundOn = false;
         this.autoResetTimer = null;
@@ -111,7 +113,7 @@ class OnlineGame {
         this.connection = connection;
         connection.on('open', () => {
             this.setStatus(this.role === 'host' ? 'Friend connected. Your turn.' : 'Connected. Waiting for host...');
-            if (this.role === 'host') connection.send({ type: 'state', board: this.blocks, turn: this.turn, round: this.round, scores: this.scores });
+            if (this.role === 'host') connection.send({ type: 'state', board: this.blocks, turn: this.turn, starter: this.starter, round: this.round, scores: this.scores });
             else connection.send({ type: 'hello', name: this.nameInput.value.trim() || 'Guest' });
             this.startTimer();
         });
@@ -135,11 +137,13 @@ class OnlineGame {
     receive(message) {
         if (message.type === 'hello' && this.role === 'host') {
             this.setStatus(`${message.name} connected. Your turn.`);
-            this.connection.send({ type: 'state', board: this.blocks, turn: this.turn });
+            this.connection.send({ type: 'state', board: this.blocks, turn: this.turn, starter: this.starter, round: this.round, scores: this.scores });
         }
         if (message.type === 'state') {
             this.blocks = message.board;
             this.turn = message.turn;
+            this.starter = message.starter || this.starter;
+            this.nextStarter = this.starter;
             this.ended = false;
             this.round = message.round || this.round;
             this.scores = message.scores || this.scores;
@@ -156,14 +160,14 @@ class OnlineGame {
             if (!this.isOver()) { this.startTimer(); this.setStatus(this.turn === this.roleMark() ? 'Your turn.' : 'Friend is thinking...'); }
         }
         if (message.type === 'reset') {
-            this.resetBoard();
+            this.resetBoard(message.starter || 'x');
             this.hideResult();
             this.round = message.round || this.round + 1;
             this.scores = message.scores || this.scores;
             this.ended = false;
             this.renderRound();
             this.startTimer();
-            this.setStatus('New game started. Host plays first.');
+            this.setStatus(this.turn === this.roleMark() ? 'New game started. Your turn.' : 'New game started. Friend goes first.');
         }
         if (message.type === 'timeout') {
             this.stopTimer();
@@ -197,7 +201,7 @@ class OnlineGame {
             this.playSound(won ? 'confetty.mp3' : 'loss.mp3');
             this.renderRound();
             this.showResult(won ? 'YOU WIN' : 'YOU LOSE', won ? 'Winning line confirmed / new game loading' : 'Your friend owns the line / new game loading', won ? '' : 'loss-state');
-            this.scheduleOnlineReset();
+            this.scheduleOnlineReset(winner === 'x' ? 'o' : 'x');
             return true;
         }
         if (this.blocks.every(Boolean)) {
@@ -208,7 +212,7 @@ class OnlineGame {
             this.playSound('tie.m4a');
             this.renderRound();
             this.showResult('DRAW GAME', 'No winning line / new game loading', 'draw-state');
-            this.scheduleOnlineReset();
+            this.scheduleOnlineReset(this.starter === 'x' ? 'o' : 'x');
             return true;
         }
         return false;
@@ -217,19 +221,21 @@ class OnlineGame {
     newGame() {
         if (this.role !== 'host' || !this.connection?.open) return this.setStatus('Only the host can start a new game.');
         window.clearTimeout(this.autoResetTimer);
-        this.resetBoard();
+        this.resetBoard(this.nextStarter);
         this.ended = false;
         this.round += 1;
-        this.connection.send({ type: 'reset', round: this.round, scores: this.scores });
+        this.connection.send({ type: 'reset', round: this.round, scores: this.scores, starter: this.nextStarter });
         this.hideResult();
         this.renderRound();
         this.startTimer();
-        this.setStatus('New game started. Your turn.');
+        this.setStatus(this.turn === this.roleMark() ? 'New game started. Your turn.' : 'New game started. Friend goes first.');
     }
 
-    resetBoard() {
+    resetBoard(starter = this.starter) {
         this.blocks.fill('');
-        this.turn = 'x';
+        this.starter = starter;
+        this.nextStarter = starter;
+        this.turn = starter;
         this.ended = false;
         this.cells.forEach(cell => { cell.textContent = ''; cell.classList.remove('x', 'o', 'cell-placed', 'winner'); });
     }
@@ -246,16 +252,17 @@ class OnlineGame {
         this.fullResultScreen.setAttribute('aria-hidden', 'true');
     }
 
-    scheduleOnlineReset() {
+    scheduleOnlineReset(starter) {
         if (this.role !== 'host') return;
+        this.nextStarter = starter;
         this.autoResetTimer = window.setTimeout(() => {
             if (!this.connection?.open) return;
-            this.resetBoard();
+            this.resetBoard(this.nextStarter);
             this.round += 1;
-            this.connection.send({ type: 'reset', round: this.round, scores: this.scores });
+            this.connection.send({ type: 'reset', round: this.round, scores: this.scores, starter: this.nextStarter });
             this.hideResult();
             this.renderRound();
-            this.setStatus('New round started. Your turn.');
+            this.setStatus(this.turn === this.roleMark() ? 'New round started. Your turn.' : 'New round started. Friend goes first.');
         }, 2800);
     }
 
@@ -285,7 +292,7 @@ class OnlineGame {
         this.showResult(won ? 'YOU WIN' : 'YOU LOSE', won ? 'Opponent ran out of time / new game loading' : 'Your time expired / new game loading', won ? '' : 'loss-state');
         if (this.role === 'host') {
             this.connection.send({ type: 'timeout', winner, scores: this.scores });
-            this.scheduleOnlineReset();
+            this.scheduleOnlineReset(this.turn);
         }
     }
 
